@@ -76,7 +76,7 @@ namespace ClearSecureData.Test
 }";
             string secureXMLAttr = "pass";
             string secureFormat = "json";
-
+             
             //Act
             string escapedString = ClearData.Clear(secureString, secureXMLAttr, secureFormat);
 
