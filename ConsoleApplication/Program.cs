@@ -8,8 +8,9 @@ namespace ConsoleApplication
 {
     class Program
     {
-        static void Main( string[] args )
+        static void Main(string[] args)
         {
+            /*
             var httpLogHandler = new HttpLogHandler();
             httpLogHandler.Process( "http://test.com?user=max&pass=123456",
                 "<auth><user>max</user><pass>123456</pass></auth>",
@@ -18,6 +19,7 @@ namespace ConsoleApplication
 
             Console.WriteLine( httpLogHandler.CurrentLog );
             Console.ReadKey();
+            */
         }
     }
 }

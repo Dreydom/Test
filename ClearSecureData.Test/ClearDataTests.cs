@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static ClearSecureData.ClearData;
 
 namespace ClearSecureData.Test
 {
@@ -12,10 +12,10 @@ namespace ClearSecureData.Test
             //Arrange
             string secureString = "http://test.com?user=max&pass=123456";
             string secureGetParam = "pass";
-            string secureFormat = "urlget";
+            SecureStringFormat secureFormat = SecureStringFormat.urlget;
 
             //Act
-            string escapedString = ClearData.Clear( secureString, secureGetParam, secureFormat );
+            string escapedString = Clear( secureString, secureGetParam, secureFormat );
 
             //Assert
             Assert.AreEqual( "http://test.com?user=max&pass=XXXXXX", escapedString );
@@ -27,42 +27,45 @@ namespace ClearSecureData.Test
             //Arrange
             string secureString = "http://test.com/user/max/info";
             string secureXMLValue = "user";
-            string secureFormat = "urlrest";
+            SecureStringFormat secureFormat = SecureStringFormat.urlrest;
 
             //Act
-            string escapedString = ClearData.Clear(secureString, secureXMLValue, secureFormat);
+            string escapedString = Clear(secureString, secureXMLValue, secureFormat);
 
             //Assert
             Assert.AreEqual("http://test.com/user/XXX/info", escapedString);
         }
+
         [TestMethod]
         public void ClearData_Clear_SecureDataInXmlElementText_ReturnEscapeSecureData()
         {
             //Arrange
             string secureString = "<auth><user>max</user><pass>123456</pass></auth>";
             string secureXMLValue = "pass";
-            string secureFormat = "xmlelementvalue";
+            SecureStringFormat secureFormat = SecureStringFormat.xmlelementvalue;
 
             //Act
-            string escapedString = ClearData.Clear(secureString, secureXMLValue, secureFormat);
+            string escapedString = Clear(secureString, secureXMLValue, secureFormat);
 
             //Assert
             Assert.AreEqual("<auth><user>max</user><pass>XXXXXX</pass></auth>", escapedString);
         }
+
         [TestMethod]
         public void ClearData_Clear_SecureDataInXmlAttribute_ReturnEscapeSecureData()
         {
             //Arrange
             string secureString = "<auth user='max' pass='123456'>";
             string secureXMLAttr = "pass";
-            string secureFormat = "xmlattribute";
+            SecureStringFormat secureFormat = SecureStringFormat.xmlattribute;
 
             //Act
-            string escapedString = ClearData.Clear(secureString, secureXMLAttr, secureFormat);
+            string escapedString = Clear(secureString, secureXMLAttr, secureFormat);
 
             //Assert
             Assert.AreEqual("<auth user='max' pass='XXXXXX'>", escapedString);
         }
+
         [TestMethod]
         public void ClearData_Clear_SecureDataInJson_ReturnEscapeSecureData()
         {
@@ -74,21 +77,22 @@ namespace ClearSecureData.Test
     pass:
 '123456'
 }";
-            string secureXMLAttr = "pass";
-            string secureFormat = "json";
+            string secureXMLAttr = "user";
+            SecureStringFormat secureFormat = SecureStringFormat.json;
              
             //Act
-            string escapedString = ClearData.Clear(secureString, secureXMLAttr, secureFormat);
+            string escapedString = Clear(secureString, secureXMLAttr, secureFormat);
 
             //Assert
             Assert.AreEqual(
 @"{
     user: 
-'max',
+'XXX',
     pass:
-'XXXXXX'
+'123456'
 }", escapedString);
         }
+
         [TestMethod]
         public void ClearData_Clear_SecureDataInJsonValue_ReturnEscapeSecureData()
         {
@@ -96,26 +100,28 @@ namespace ClearSecureData.Test
             string secureString =
 @"{
     user: {
+        key: '32',
         value: 'max'
     },
-    pass: {
+    password: {
         value: '123456'
     }
 }";
-            string secureXMLAttr = "pass";
-            string secureFormat = "jsonvalue";
+            string secureXMLAttr = "user";
+            SecureStringFormat secureFormat = SecureStringFormat.jsonvalue;
 
             //Act
-            string escapedString = ClearData.Clear(secureString, secureXMLAttr, secureFormat);
+            string escapedString = Clear(secureString, secureXMLAttr, secureFormat);
 
             //Assert
             Assert.AreEqual(
 @"{
     user: {
-        value: 'max'
+        key: '32',
+        value: 'XXX'
     },
-    pass: {
-        value: 'XXXXXX'
+    password: {
+        value: '123456'
     }
 }", escapedString);
         }

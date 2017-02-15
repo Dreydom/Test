@@ -57,6 +57,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClearSecureData\ClearSecureData.csproj">
+      <Project>{61ABCEDA-0D0F-4C42-83C4-9E2C6B66235F}</Project>
+      <Name>ClearSecureData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HttpLog\HttpLog.csproj">
       <Project>{e3fab5db-56f6-4f95-9ce9-edbc0f654535}</Project>
       <Name>HttpLog</Name>
