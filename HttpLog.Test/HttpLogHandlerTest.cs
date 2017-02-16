@@ -20,20 +20,20 @@ namespace HttpLog.Test
             var secureParams = new SecureParams()
             {
                 UrlFormat = SecureStringFormat.urlget,
-                UrlKey = "user",
+                UrlKey = "user,pass",
                 BodyFormat = SecureStringFormat.xmlelementvalue,
-                BodyKey = "user",
+                BodyKey = "user,pass",
                 ResponseFormat = SecureStringFormat.xmlattribute,
-                ResponseKey = "user"
+                ResponseKey = "user,pass"
             };
 
             //Act
             httpLogHandler.Process(bookingHttpResult.Url, bookingHttpResult.RequestBody, bookingHttpResult.ResponseBody, secureParams);
 
             //Assert
-            Assert.AreEqual("http://test.com?user=XXX&pass=123456", httpLogHandler.CurrentLog.Url);
-            Assert.AreEqual("<auth><user>XXX</user><pass>123456</pass></auth>", httpLogHandler.CurrentLog.RequestBody);
-            Assert.AreEqual("<auth user='XXX' pass='123456'>", httpLogHandler.CurrentLog.ResponseBody);
+            Assert.AreEqual("http://test.com?user=XXX&pass=XXXXXX", httpLogHandler.CurrentLog.Url);
+            Assert.AreEqual("<auth><user>XXX</user><pass>XXXXXX</pass></auth>", httpLogHandler.CurrentLog.RequestBody);
+            Assert.AreEqual("<auth user='XXX' pass='XXXXXX'>", httpLogHandler.CurrentLog.ResponseBody);
         }
 
         [TestMethod]
@@ -60,11 +60,11 @@ namespace HttpLog.Test
             var secureParams = new SecureParams()
             {
                 UrlFormat = SecureStringFormat.urlrest,
-                UrlKey = "user",
+                UrlKey = "user,pass",
                 BodyFormat = SecureStringFormat.json,
-                BodyKey = "user",
+                BodyKey = "user,pass",
                 ResponseFormat = SecureStringFormat.jsonvalue,
-                ResponseKey = "user"
+                ResponseKey = "user,pass"
             };
 
             //Act
@@ -74,14 +74,14 @@ namespace HttpLog.Test
             Assert.AreEqual("http://test.com/users/max/info", httpLogHandler.CurrentLog.Url);
             Assert.AreEqual(@"{
     user:'XXX',
-    pass:'123456'
+    pass:'XXXXXX'
 }", httpLogHandler.CurrentLog.RequestBody);
             Assert.AreEqual(@"{
     user:{
         value:'XXX'
     },
     pass:{
-        value:'123456'
+        value:'XXXXXX'
     }
 }", httpLogHandler.CurrentLog.ResponseBody);
         }
@@ -105,24 +105,24 @@ namespace HttpLog.Test
             var secureParams = new SecureParams()
             {
                 UrlFormat = SecureStringFormat.urlget,
-                UrlKey = "pass",
+                UrlKey = "user,pass",
                 BodyFormat = SecureStringFormat.xmlelementvalue,
-                BodyKey = "pass",
+                BodyKey = "user,pass",
                 ResponseFormat = SecureStringFormat.xmlattribute,
-                ResponseKey = "pass"
+                ResponseKey = "user,pass"
             };
 
             //Act
             httpLogHandler.Process(agodaHttpResult.Url, agodaHttpResult.RequestBody, agodaHttpResult.ResponseBody, secureParams);
 
             //Assert
-            Assert.AreEqual("http://test.com?user=max&pass=XXXXXX", httpLogHandler.CurrentLog.Url);
+            Assert.AreEqual("http://test.com?user=XXX&pass=XXXXXX", httpLogHandler.CurrentLog.Url);
             Assert.AreEqual(@"
 <auth>
-    <user>max</user>
+    <user>XXX</user>
     <pass>XXXXXX</pass>
 </auth>", httpLogHandler.CurrentLog.RequestBody);
-            Assert.AreEqual("<auth user='max' pass='XXXXXX'>", httpLogHandler.CurrentLog.ResponseBody);
+            Assert.AreEqual("<auth user='XXX' pass='XXXXXX'>", httpLogHandler.CurrentLog.ResponseBody);
         }
 
         [TestMethod]

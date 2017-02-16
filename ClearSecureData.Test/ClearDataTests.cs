@@ -11,14 +11,14 @@ namespace ClearSecureData.Test
         {
             //Arrange
             string secureString = "http://test.com?user=max&pass=123456";
-            string secureGetParam = "pass";
+            string secureGetParam = "user,pass";
             SecureStringFormat secureFormat = SecureStringFormat.urlget;
 
             //Act
             string escapedString = Clear( secureString, secureGetParam, secureFormat );
 
             //Assert
-            Assert.AreEqual( "http://test.com?user=max&pass=XXXXXX", escapedString );
+            Assert.AreEqual( "http://test.com?user=XXX&pass=XXXXXX", escapedString );
         }
 
         [TestMethod]
